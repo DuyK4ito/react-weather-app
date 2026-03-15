@@ -26,6 +26,7 @@ function App() {
                 desc: today.weather[0].description,
                 humidity: today.main.humidity,
                 wind: today.wind.speed,
+                timezone: data.city.timezone,
             });
 
             // Filter forecast for the next 5 days (one per day)
@@ -47,21 +48,28 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen bg-blue-200 flex flex-col items-center px-5 ">
-            <div className="flex flex-col md:flex-row gap-4 w-full items-center justify-between">
-                <h1 className="text-blue-500 text-2xl font-bold mt-10">
-                    🌦️ Weather Forecast
-                </h1>
-                <SearchBox onSearch={fetchWeather} />
+        <div className="min-h-screen bg-linear-to-br from-blue-400 via-blue-300 to-indigo-400 flex flex-col items-center justify-center p-4 md:p-6 text-slate-800">
+            <div className="w-full max-w-4xl bg-white/40 backdrop-blur-lg border border-white/50 rounded-3xl shadow-2xl p-6 md:p-6">
+                <div className="flex flex-col md:flex-row gap-6 w-full items-center justify-between border-b border-white/40 pb-6">
+                    <h1 className="text-slate-800 text-3xl font-bold tracking-tight flex items-center gap-2">
+                        <span className="text-2xl">🌦️ Weather Forecast</span>
+                    </h1>
+                    <SearchBox onSearch={fetchWeather} />
+                </div>
+
+                {loading ? (
+                    <div className="flex justify-center items-center h-64">
+                        <p className="text-slate-700 text-xl font-medium animate-pulse">
+                            Loading weather data...
+                        </p>
+                    </div>
+                ) : (
+                    <div className="mt-6 flex flex-col gap-4">
+                        <WeatherCard weather={weather} />
+                        <ForecastList forecast={forecast} />
+                    </div>
+                )}
             </div>
-            {loading ? (
-                <p className="text-gray-600 mt-14">Loading...</p>
-            ) : (
-                <>
-                    <WeatherCard weather={weather} />
-                    <ForecastList forecast={forecast} />
-                </>
-            )}
         </div>
     );
 }
