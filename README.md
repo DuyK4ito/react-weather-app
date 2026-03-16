@@ -20,6 +20,12 @@ A simple weather app that lets users search for current weather and a 5-day fore
 -   **Tailwind CSS**: CSS framework for styling.
 -   **OpenWeatherMap API**: Source of weather data.
 
+## Screenshot
+
+![App Screenshot](./app.png)
+
+---
+
 ## How to Install and Run
 
 1. **Clone the repo** (if available):
