@@ -3,15 +3,17 @@ import axios from "axios";
 import SearchBox from "./assets/components/SearchBox";
 import ForecastList from "./assets/components/ForecastList";
 import WeatherCard from "./assets/components/WeatherCard";
+import LoadingSpinner from "./assets/components/LoadingSpinner";
 
 function App() {
     const [weather, setWeather] = useState(null);
     const [forecast, setForecast] = useState([]);
-    const [loading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const apiKey = import.meta.env.VITE_OPENWEATHER_API_KEY;
 
     const fetchWeather = async (city) => {
+        setLoading(true);
         try {
             const res = await axios.get(
                 `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=vi`
@@ -19,7 +21,6 @@ function App() {
 
             const data = res.data;
             const today = data.list[0];
-
             setWeather({
                 city: data.city.name,
                 temp: today.main.temp,
@@ -44,6 +45,8 @@ function App() {
             setForecast(daily);
         } catch (error) {
             alert("City not found!");
+        } finally {
+            setTimeout(() => setLoading(false), 500);
         }
     };
 
@@ -58,10 +61,8 @@ function App() {
                 </div>
 
                 {loading ? (
-                    <div className="flex justify-center items-center h-64">
-                        <p className="text-slate-700 text-xl font-medium animate-pulse">
-                            Loading weather data...
-                        </p>
+                    <div className="flex justify-center items-center h-80">
+                        <LoadingSpinner />
                     </div>
                 ) : (
                     <div className="mt-6 flex flex-col gap-4">

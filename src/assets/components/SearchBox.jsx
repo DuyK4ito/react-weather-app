@@ -6,6 +6,7 @@ function SearchBox({ onSearch }) {
     const handleSearch = () => {
         const normalizedCityInput = city.replace(/\s+/g, " ").trim();
         onSearch(normalizedCityInput);
+        setCity("");
     };
 
     return (
